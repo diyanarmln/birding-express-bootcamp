@@ -1,0 +1,18 @@
+<%- include('header', {title: `Create your account`}); -%>
+
+<div class="container" style="padding-top: 20px">
+  <h1 style="text-align: center">Create your account</h1>
+  <br>
+
+  <form action="/signup" method="POST">
+    <div class="form-group">
+    <label for="email">Email:</label><br />
+      <input type="email" name="email" class="form-control"/><br />
+    <label for="password">Password:</label><br />
+      <input type="password" name="password" class="form-control" />
+      <br />
+      <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+
+  <%- include('footer'); -%>
+</div>

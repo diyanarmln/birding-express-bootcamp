@@ -185,11 +185,106 @@ const handleFileReadDelete = (request, response) => {
   });
 };
 
+const handleLoginPage = (request, response) => {
+  response.render('login');
+};
+
+const handleSignUpPage = (request, response) => {
+  response.render('signup');
+};
+
+app.post('/signup', (request, response) => {
+  const content = request.body;
+  console.log(content);
+
+  // check table if email is unique
+  const sqlCheck = `SELECT * FROM users where email = '${content.email}';`;
+
+  pool.query(sqlCheck, (err, res) => {
+    console.log(res);
+    if (res.rows.length > 0) {
+      response.status(400).send('Email already exists.');
+      console.log('Email exists');
+    }
+    else {
+      const inputData = [content.email, content.password];
+      const sqlInsert = 'INSERT INTO users (email, password) VALUES ($1, $2);';
+
+      pool.query(sqlInsert, inputData, (error, result) => {
+        if (error) {
+          response.status(500).send('DB write error.');
+          console.log('DB write error', error.stack);
+          return;
+        }
+
+        console.log('query inserted', result);
+        response.status(200).send('Account created');
+      });
+    }
+  });
+});
+
+app.post('/login', (request, response) => {
+  const content = request.body;
+  console.log(content);
+  const sqlCheck = `SELECT * FROM users WHERE email = '${content.email}' AND password = '${content.password}';`;
+
+  pool.query(sqlCheck, (err, res) => {
+    console.log(res);
+    if (res.rows.length === 0) {
+      response.status(400).send('Your email/password does not exist.');
+      console.log('Email/password does not exist');
+    }
+    else {
+      const user = res.rows[0];
+      response.cookie('userId', user.id);
+      const insertNoteSQL = `UPDATE users SET note = ${user.id} where id = ${user.id};`;
+
+      pool.query(insertNoteSQL, (error, result) => {
+        if (error) {
+          response.status(500).send('DB write error.');
+          console.log('DB write error', error.stack);
+          return;
+        }
+
+        console.log('login note cookie success', result);
+        response.redirect('/account');
+      });
+    }
+  });
+});
+
+const handleAccountPage = (request, response) => {
+  response.render('account');
+};
+
+const handleLogOut = (reqOut, resOut) => {
+  const id = reqOut.cookies.userId;
+
+  const sqlDelete = `UPDATE users SET note='' WHERE note='${id}';`;
+
+  pool.query(sqlDelete, (error, result) => {
+    if (error) {
+      resOut.status(500).send('DB write error.');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('logout cookie updated', result);
+    resOut.clearCookie('userId');
+    resOut.redirect('/login');
+  });
+};
+
 app.get('/', renderHomePage);
 app.get('/note/:id', renderNotePage);
 app.get('/note', renderForm);
 app.get('/note/:id/edit', handleEditNote);
 app.put('/note/:id', handleFileReadPostEdit);
 app.delete('/note/:id', handleFileReadDelete);
+app.get('/login', handleLoginPage);
+app.get('/signup', handleSignUpPage);
+app.get('/account', handleAccountPage);
+app.get('/logout', handleLogOut);
 
 app.listen(3004);
