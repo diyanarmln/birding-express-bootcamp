@@ -1,0 +1,114 @@
+<%- include('header', {title: `Sighting Report #${id}`}); -%>
+
+<div class="container" style="padding-top: 20px">
+    <h1>
+      Edit Sighting Report #<% const number = Number(id) %><%= number %>
+    </h1>
+  </br>
+    <form action="<%= url.replace("/edit",""); %>?_method=PUT" method="POST">
+
+      <label for="date">Date:</label><br />
+      <input
+        class="form-control <%= validity.dateValidity %>"
+        type="date"
+        id="date"
+        name="date"
+        value="<%= JSON.stringify(date).slice(1,11) %>"
+        required
+      />
+      <div class="invalid-feedback">
+        Please add a date no later than today's date
+      </div>
+      <br />
+
+      <label for="duration">Duration (mins):</label><br />
+      <input
+        class="form-control <%= validity.durationValidity %>"
+        type="integer"
+        id="duration"
+        name="duration"
+        value="<%= duration_mins %>"
+        required
+      />
+      <div class="invalid-feedback">Please add a duration</div>
+      <br />
+
+      <label for="habitat">Habitat:</label><br />
+      <input
+        class="form-control <%= validity.habitatValidity %>"
+        type="text"
+        id="habitat"
+        name="habitat"
+        value="<%= habitat %>"
+        required
+      />
+      <div class="invalid-feedback">Please add a habitat</div>
+      <br />
+
+      <label for="appearance">Appearance:</label><br />
+      <input
+        class="form-control <%= validity.appearanceValidity %>"
+        type="text"
+        id="appearance"
+        name="appearance"
+        value="<%= appearance %>"
+        required
+      />
+      <div class="invalid-feedback">Please add an appearance</div>
+      <br />
+
+      <!-- change to radio button -->
+      <label for="gender">Gender:</label><br />
+      <input
+        class="form-control <%= validity.genderValidity %>"
+        type="text"
+        id="gender"
+        name="gender"
+        value="<%= gender %>"
+        required
+      />
+      <div class="invalid-feedback">Please add a gender</div>
+      <br />
+
+      <label for="behaviour">Behaviour:</label><br />
+      <input
+        class="form-control <%= validity.behaviourValidity %>"
+        rows="5"
+        id="behaviour"
+        name="behaviour"
+        value="<%= behaviour %>"
+        required
+      />
+      <div class="invalid-feedback">Please add a behaviour</div>
+      <br />
+
+      <label for="vocalisation">Vocalisations:</label><br />
+      <textarea
+        class="form-control <%= validity.vocalisationValidity %>"
+        type="text"
+        id="vocalisation"
+        name="vocalisation"
+        required
+      ><%= vocalisations %></textarea>
+      <div class="invalid-feedback">Please add vocalisations</div>
+      <br />
+
+      <label for="flock">Flock Size:</label><br />
+      <textarea
+        class="form-control <%= validity.flockValidity %>"
+        type="text"
+        id="flock"
+        name="flock"
+        required
+      ><%= flock_size %></textarea>
+      <div class="invalid-feedback">Please add flock size</div>
+      <br />
+
+      <button class="btn btn-primary" type="submit">Submit</button>
+      <a class="btn btn-primary" href="<%= url.replace("/edit",""); %>" role="button">Cancel</a>
+
+    </form>
+  </div>
+
+<%- include('footer'); -%>
+

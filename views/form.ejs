@@ -1,0 +1,105 @@
+<%- include('header', {title: `Submit Bird Sighting Report`}); -%>
+
+<div class="container" style="padding-top: 20px">
+  <h1 style="text-align: center">Submit Birds Sighting Report</h1>
+
+  <form name="mainForm" action="/note" method="POST">
+    <div class="form-group">
+      <label for="date">Date:</label><br />
+      <input
+        class="form-control <%= dateValidity %>"
+        type="date"
+        id="date"
+        name="date"
+        required
+      />
+      <div class="invalid-feedback">
+        Please add a date no later than today's date
+      </div>
+      <br />
+
+      <label for="duration">Duration (mins):</label><br />
+      <input
+        class="form-control <%= durationValidity %>"
+        type="integer"
+        id="duration"
+        name="duration"
+        required
+      />
+      <div class="invalid-feedback">Please add a duration</div>
+      <br />
+
+      <label for="habitat">Habitat:</label><br />
+      <input
+        class="form-control <%= habitatValidity %>"
+        type="text"
+        id="habitat"
+        name="habitat"
+        required
+      />
+      <div class="invalid-feedback">Please add a habitat</div>
+      <br />
+
+      <label for="appearance">Appearance:</label><br />
+      <input
+        class="form-control <%= appearanceValidity %>"
+        type="text"
+        id="appearance"
+        name="appearance"
+        required
+      />
+      <div class="invalid-feedback">Please add an appearance</div>
+      <br />
+
+      <!-- change to radio button -->
+      <label for="gender">Gender:</label><br />
+      <input
+        class="form-control <%= genderValidity %>"
+        type="text"
+        id="gender"
+        name="gender"
+        required
+      />
+      <div class="invalid-feedback">Please add a gender</div>
+      <br />
+
+      <label for="behaviour">Behaviour:</label><br />
+      <input
+        class="form-control <%= behaviourValidity %>"
+        rows="5"
+        id="behaviour"
+        name="behaviour"
+        required
+      />
+      <div class="invalid-feedback">Please add a behaviour</div>
+      <br />
+
+      <label for="vocalisation">Vocalisations:</label><br />
+      <textarea
+        class="form-control <%= vocalisationValidity %>"
+        type="text"
+        id="vocalisation"
+        name="vocalisation"
+        required
+      ></textarea>
+      <div class="invalid-feedback">Please add vocalisations</div>
+      <br />
+
+      <label for="flock">Flock Size:</label><br />
+      <textarea
+        class="form-control <%= flockValidity %>"
+        type="text"
+        id="flock"
+        name="flock"
+        required
+      ></textarea>
+      <div class="invalid-feedback">Please add flock size</div>
+      <br />
+
+      <button class="btn btn-primary" type="submit">Submit</button>
+      <a class="btn btn-primary" href="/" role="button">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('footer'); -%>

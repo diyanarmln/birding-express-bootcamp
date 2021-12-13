@@ -1,0 +1,82 @@
+<%- include('header', {title: `Bird Sightings`}); -%>
+
+<div class="container" style="padding-top: 20px">
+  <h1 style="text-align: center">Bird Sightings</h1>
+  <br />
+  <div class="container">
+    <div class="row justify-content-space-between">
+      <div class="col-8 col-sm-6">
+        <a class="btn btn-primary" href="/note" role="button"
+          >Submit new sighting</a
+        >
+      </div>
+      <div class="col-4 col-sm-6" style="text-align: right">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Date</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Appearance</a>
+            </th>
+            <th scope="col">Behaviour</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% notes.forEach((note)=>{ %>
+          <tr>
+            <td><%= note.date %></td>
+            <td><%= note.appearance %></td>
+            <td><%= note.behaviour %></td>
+            <td style="text-align: right">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <a
+                  class="btn btn-primary mr-2 btn-sm"
+                  href="/note/<%= note.id %>"
+                  role="button"
+                  >View</a
+                >
+                <span>
+                  <form
+                    action="/sighting/<%= note.id %>?_method=DELETE"
+                    method="POST"
+                    onclick="return confirm('Are you sure you want to delete this report?');"
+                  >
+                    <button class="btn btn-danger mr-2 btn-sm" type="submit">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </span>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+        <br />
+      <div style="display: flex; justify-content: center">
+<button type="button"  class="btn btn-dark" disabled>Visits: <%= Number(visits) + 1%> </button>
+      </div>
+     
+  <%- include('footer'); -%>
+</div>
